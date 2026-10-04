@@ -1,0 +1,9 @@
+Ablation: linear regression with fewer features
+lin_rv5      RMSE=0.00xxx MAE=0.00xxx
+lin_rv5_vix  RMSE=0.00xxx MAE=0.00xxx
+
+Reference (from earlier runs)
+linear, all price features, no VIX   RMSE=0.00556 MAE=0.00352
+linear, all features + VIX           RMSE=0.00507 MAE=0.00321
+garch                                RMSE=0.00544 MAE=0.00366
+naive                                RMSE=0.00616 MAE=0.00402

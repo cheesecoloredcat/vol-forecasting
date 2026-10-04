@@ -68,3 +68,24 @@ for c in ['garch', 'linear', 'rf', 'xgb', 'naive']:
 
 out[['actual', 'garch', 'xgb']].plot(figsize=(12,4))
 plt.savefig('forecast_plot.png', dpi=150)
+
+def walk_forward_linear(cols):
+    p = pd.Series(index=df.index, dtype=float)
+    for s in range(first_test, len(df), block):
+        e = min(s + block, len(df))
+        train = df.iloc[: s - H]
+        test = df.iloc[s:e]
+        m = LinearRegression()
+        m.fit(train[cols], train['target'])
+        p.iloc[s:e] = m.predict(test[cols])
+    return p
+
+experiments = {
+    'lin_rv5': ['rv5'],
+    'lin_rv5_vix': ['rv5', 'vix'],
+}
+for name, cols in experiments.items():
+    p = walk_forward_linear(cols).loc[out.index]
+    rmse = np.sqrt(mean_squared_error(out['actual'], p))
+    mae = mean_absolute_error(out['actual'], p)
+    print(f'{name:12s} RMSE={rmse:.5f} MAE={mae:.5f}')
