@@ -4,6 +4,10 @@ import numpy as np, pandas as pd, yfinance as yf
 df = yf.download('SPY', start='2005-01-01', auto_adjust=True)
 df.columns = df.columns.get_level_values(0)
 df['ret'] = np.log(df['Close']).diff()
+vix = yf.download('^VIX', start='2005-01-01', auto_adjust=True)
+vix.columns = vix.columns.get_level_values(0)
+df['vix'] = vix['Close'] / 100 / np.sqrt(252)
+df['vix_chg'] = df['vix'].diff()
 print(df.tail())
 
 H = 5
@@ -15,7 +19,7 @@ df['abs_ret'] = df['ret'].abs()
 df['vol_chg'] = np.log(df['Volume']).diff()
 
 df = df.dropna()
-feats = ['rv5', 'rv10', 'rv20', 'abs_ret', 'vol_chg']
+feats = ['rv5', 'rv10', 'rv20', 'abs_ret', 'vol_chg', 'vix', 'vix_chg']
 
 from sklearn.linear_model import LinearRegression
 from sklearn.ensemble import RandomForestRegressor

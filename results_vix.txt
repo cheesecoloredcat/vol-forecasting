@@ -1,0 +1,6 @@
+   With VIX features (price features + vix, vix_chg)
+   garch   RMSE=0.00544 MAE=0.00366
+   linear  RMSE=0.00507 MAE=0.00321
+   rf      RMSE=0.00507 MAE=0.00332
+   xgb     RMSE=0.00506 MAE=0.00329
+   naive   RMSE=0.00616 MAE=0.00402

@@ -1,0 +1,7 @@
+rows = []
+for c in ['garch', 'linear', 'rf', 'xgb', 'naive']:
+    rmse = np.sqrt(mean_squared_error(out['actual'], out[c]))
+    mae = mean_absolute_error(out['actual'], out[c])
+    print(f'{c:7s} RMSE={rmse:.5f} MAE={mae:.5f}')
+    rows.append({'model': c, 'RMSE': rmse, 'MAE': mae})
+pd.DataFrame(rows).to_csv('results_baseline.csv', index=False)
